@@ -4,8 +4,9 @@ metadata:
   name: oracle
   namespace: oracledb
 spec:
-  type: LoadBalancer
   type: NodePort
+  selector:
+    app: oracledb-app
   ports:
   - name: listener
     port: 1521
@@ -13,5 +14,3 @@ spec:
   - name: xmldb
     port: 5500
     protocol: TCP
-  selector:
-    app: oracledb-app
