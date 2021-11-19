@@ -5,3 +5,4 @@ namespace: oracledb
 
 resources:
   - namespace.yaml
+  - service.yaml

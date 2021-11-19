@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oracle
+  namespace: oracledb
+spec:
+  type: LoadBalancer
+  type: NodePort
+  ports:
+  - name: listener
+    port: 1521
+    protocol: TCP
+  - name: xmldb
+    port: 5500
+    protocol: TCP
+  selector:
+    app: oracledb-app
