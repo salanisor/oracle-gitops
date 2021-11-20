@@ -13,11 +13,11 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: label-here
+      app: oracledb-app
   template:
     metadata:
       labels:
-        app: label-here
+        app: oracledb-app
     spec:
       terminationGracePeriodSeconds: 30
       imagePullSecrets:
@@ -48,5 +48,4 @@ spec:
               name: datamount
       volumes:
         - name: datamount
-          persistentVolumeClaim:
-            claimName: clain-name
+          emptyDir: {}
