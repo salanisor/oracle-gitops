@@ -1,0 +1,50 @@
+# Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved.
+# Licensed under the Universal Permissive License v 1.0 as shown at http://oss.oracle.com/licenses/upl.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oracledb-app
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 100
+      maxUnavailable: 100
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: label-here
+  template:
+    metadata:
+      labels:
+        app: label-here
+    spec:
+      terminationGracePeriodSeconds: 30
+      serviceAccountName: oracle-sa
+      securityContext:
+        runAsUser: 54321
+        fsGroup: 54321
+      containers:
+        - name: oracle-db
+          image: quay.io/canit0/oracledb19:latest
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "/bin/sh", "-c", "/bin/echo -en 'shutdown abort;\n' | env ORACLE_SID=${ORACLE_SID^^} sqlplus -S / as sysdba" ]
+          ports:
+            - containerPort: 1521
+            - containerPort: 5500
+          readinessProbe:
+            exec:
+              command: [ "/bin/sh", "-c", "$ORACLE_BASE/checkDBLockStatus.sh" ]
+            initialDelaySeconds: 20
+            periodSeconds: 40
+            timeoutSeconds: 20
+          volumeMounts:
+            - mountPath: /opt/oracle/oradata
+              name: datamount
+      volumes:
+        - name: datamount
+          persistentVolumeClaim:
+            claimName: clain-name
