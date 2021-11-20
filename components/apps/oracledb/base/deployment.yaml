@@ -20,6 +20,8 @@ spec:
         app: label-here
     spec:
       terminationGracePeriodSeconds: 30
+      imagePullSecrets:
+        - name: regcred
       serviceAccountName: oracle-sa
       securityContext:
         runAsUser: 54321
