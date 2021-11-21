@@ -26,7 +26,7 @@ spec:
         fsGroup: 54321
       containers:
         - name: oracle-db
-          image: quay.io/canit0/oracledb19:latest
+          image: registry.example.com:5000/oracledb19:latest
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
