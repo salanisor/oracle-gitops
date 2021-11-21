@@ -20,8 +20,6 @@ spec:
         app: oracledb-app
     spec:
       terminationGracePeriodSeconds: 30
-      imagePullSecrets:
-        - name: regcred
       serviceAccountName: oracle-sa
       securityContext:
         runAsUser: 54321
@@ -46,6 +44,8 @@ spec:
           volumeMounts:
             - mountPath: /opt/oracle/oradata
               name: datamount
+      imagePullSecrets:
+        - name: regcred
       volumes:
         - name: datamount
           emptyDir: {}
