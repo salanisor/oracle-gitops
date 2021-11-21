@@ -37,7 +37,7 @@ spec:
             - containerPort: 5500
           readinessProbe:
             exec:
-              command: [ "/bin/sh", "-c", "$ORACLE_BASE/checkDBLockStatus.sh" ]
+              command: [ "/bin/sh", "-c", "$ORACLE_BASE/checkDBStatus.sh" ]
             initialDelaySeconds: 20
             periodSeconds: 40
             timeoutSeconds: 20
